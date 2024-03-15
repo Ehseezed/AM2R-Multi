@@ -33,10 +33,10 @@ def get_location_datas(world: Optional[MultiWorld], player: Optional[int]):
         LocationData("Golden Temple", "Golden Temple: Armory Left",  8680010, 104),
         LocationData("Golden Temple", "Golden Temple: Armory Upper",  8680011, 106),
         LocationData("Golden Temple", "Golden Temple: Armory Lower",  8680012, 105),
-        LocationData("Golden Temple", "Golden Temple: Armory Behind The False Wall",  8680013, 107, logic.AM2R_can_bomb),  # bomb
-        LocationData("Golden Temple", "Golden Temple: 3-Orb Hallway 1",  8680014, 101),
-        LocationData("Golden Temple", "Golden Temple: 3-Orb Hallway 2",  8680015, 108),
-        LocationData("Golden Temple", "Golden Temple: 3-Orb Hallway 3",  8680016, 102),
+        LocationData("Golden Temple", "Golden Temple: Armory False Wall",  8680013, 107, logic.AM2R_can_bomb),  # bomb
+        LocationData("Golden Temple", "Golden Temple: 3-Orb Hallway Left",  8680014, 101),
+        LocationData("Golden Temple", "Golden Temple: 3-Orb Hallway Middle",  8680015, 108),
+        LocationData("Golden Temple", "Golden Temple: 3-Orb Hallway Right",  8680016, 102),
         LocationData("Golden Temple", "Golden Temple: Spider Ball",  8680017, 2),
         LocationData("Golden Temple", "Golden Temple: Exterior Ceiling",  8680018, 109, lambda state: state.has("Speed Booster", player) or logic.AM2R_can_spider(state)),  # canspider
         LocationData("Golden Temple", "Golden Temple: EMP Room",  8680019, 110, lambda state: state.has("Super Missile", player) and logic.AM2R_has_ballspark(state) and logic.AM2R_can_bomb(state) and state.has("Screw Attack", player)),  # super + ballspark
@@ -58,13 +58,13 @@ def get_location_datas(world: Optional[MultiWorld], player: Optional[int]):
         LocationData("Inner Hydro Station", "Hydro Station: Below Tower Pipe Upper",  8680031, 153, lambda state: logic.AM2R_can_schmove(state) and logic.AM2R_can_bomb(state)),  # schmove
         LocationData("Inner Hydro Station", "Hydro Station: Below Tower Pipe Lower",  8680032, 154, logic.AM2R_can_bomb),
         LocationData("Inner Hydro Station", "Hydro Station: Dead End",  8680033, 155, logic.AM2R_can_bomb),
-        LocationData("Inner Hydro Station", "Hydro Station: Hi-Jump",  8680034, 4),
-        LocationData("Inner Hydro Station", "Hydro Station: Behind Hi-Jump Upper",  8680035, 156, lambda state: logic.AM2R_can_schmove(state) and logic.AM2R_can_bomb(state)),
-        LocationData("Inner Hydro Station", "Hydro Station: Behind Hi-Jump",  8680036, 157, logic.AM2R_can_bomb),
+        LocationData("Inner Hydro Station", "Hydro Station: Hi-Jump Boots",  8680034, 4),
+        LocationData("Inner Hydro Station", "Hydro Station: Behind Hi-Jump Boots Upper",  8680035, 156, lambda state: logic.AM2R_can_schmove(state) and logic.AM2R_can_bomb(state)),
+        LocationData("Inner Hydro Station", "Hydro Station: Behind Hi-Jump Boots Lower",  8680036, 157, logic.AM2R_can_bomb),
 
         LocationData("Hydro Nest", "Hydro Nest: Below the Walkway",  8680037, 158, logic.AM2R_can_bomb),  # Bomb
         LocationData("Hydro Nest", "Hydro Nest: Speed Ceiling",  8680038, 161, lambda state: state.has("Speed Booster", player) and state.has("Speed Booster", player)),  # speed
-        LocationData("Hydro Nest", "Hydro Nest: Behind the Wall",  8680039, 160, lambda state: state.has("Power Bomb", player) and state.has("Screw Attack", player) and state.has("Speed Booster", player)),  # PB + screw/speed
+        LocationData("Hydro Nest", "Hydro Nest: Behind The Wall",  8680039, 160, lambda state: state.has("Power Bomb", player) and state.has("Screw Attack", player) and state.has("Speed Booster", player)),  # PB + screw/speed
 
         LocationData("Industrial Complex Nest", "Industrial Complex: Above Save",  8680040, 214),
         LocationData("Industrial Complex Nest", "Industrial Complex: EMP Room",  8680041, 213, lambda state: state.has("Power Bomb", player) and state.has("Super Missile", player) and state.can_reach("EMP", "Region", player)),  # PB + super
@@ -110,10 +110,10 @@ def get_location_datas(world: Optional[MultiWorld], player: Optional[int]):
 
         LocationData("EMP", "Distribution Center: After EMP Activation",  8680073, 300, lambda state: state.has("Screw Attack", player) and state.has("Speed Booster", player)),  # screw
 
-        LocationData("Underwater Distro Connection", "Distribution Center: Spider Ball Crumble Spike \"Maze\"",  8680074, 303, lambda state: state.has("Spider Ball", player) and state.has("Gravity Suit", player)),  # spiderball underwater
-        LocationData("Underwater Distro Connection", "Distribution Center: Before Spikey Trial",  8680075, 304),
-        LocationData("Underwater Distro Connection", "Distribution Center: Spikey Trial Shinespark",  8680076, 305, lambda state: state.has("Gravity Suit", player) and state.has("Speed Booster", player)),  # grav + speed
-        LocationData("Underwater Distro Connection", "Distribution Center: After Spikey Trial",  8680078, 306, lambda state: state.has("Power Bomb", player) and state.has("Speed Booster", player) and state.has("Gravity Suit", player) and state.has("Space Jump", player)),  # speed + grav + space + pb
+        LocationData("Underwater Distro Connection", "Distribution Center: Spider Ball Crumble Spiky \"Maze\"",  8680074, 303, lambda state: state.has("Spider Ball", player) and state.has("Gravity Suit", player)),  # spiderball underwater
+        LocationData("Underwater Distro Connection", "Distribution Center: Before Spiky Trial",  8680075, 304),
+        LocationData("Underwater Distro Connection", "Distribution Center: Spiky Trial Shinespark",  8680076, 305, lambda state: state.has("Gravity Suit", player) and state.has("Speed Booster", player)),  # grav + speed
+        LocationData("Underwater Distro Connection", "Distribution Center: After Spiky Trial",  8680078, 306, lambda state: state.has("Power Bomb", player) and state.has("Speed Booster", player) and state.has("Gravity Suit", player) and state.has("Space Jump", player)),  # speed + grav + space + pb
 
         LocationData("Screw Attack", "Distribution Center: Screw Attack", 8680080, 8),
         LocationData("Pipe Hell Outside", "Distribution Center: Exterior Post-Gravity", 8680081, 302, lambda state: state.has("Power Bomb", player) and state.has("Space Jump", player) and state.has("Gravity Suit", player)),  # pb + space + grav
