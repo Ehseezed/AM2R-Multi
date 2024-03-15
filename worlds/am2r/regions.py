@@ -117,7 +117,7 @@ def create_regions_and_locations(world: MultiWorld, player: int):
     connect(world, player, "Hydro Station", "The Lab", logic.AM2R_can_lab),
     connect(world, player, "The Lab", "Hydro Station", lambda state: state.has("Screw Attack", player)),
 
-    connect(world, player, "Hydro Station", "Arachnus", logic.AM2R_can_bomb),
+    connect(world, player, "Hydro Station", "Arachnus", lambda state: state.has("Power Bomb", player, 4) or state.has("Bombs", player)),
     connect(world, player, "Arachnus", "Hydro Station"),
 
     connect(world, player, "Hydro Station", "Inner Hydro Station", lambda state: state.has("Screw Attack", player) or logic.AM2R_can_bomb(state))

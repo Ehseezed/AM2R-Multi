@@ -20,7 +20,7 @@ def get_location_datas(world: Optional[MultiWorld], player: Optional[int]):
 
     location_table: List[LocationData] = [
         LocationData("Main Caves", "Main Caves: Spider Ball Challenge Upper",  8680000, 53, lambda state: logic.AM2R_can_fly(state) and logic.AM2R_can_bomb(state)),  # spider + bomb
-        LocationData("Main Caves", "Main Caves: Spider Ball Challenge Lower",  8680001, 52, logic.AM2R_can_bomb),  # bomb
+        LocationData("Main Caves", "Main Caves: Spider Ball Challenge Lower",  8680001, 52, lambda state: state.has("Power Bomb", player, 3) or state.has("Bombs", player)),  # bomb
         LocationData("Main Caves", "Main Caves: Hi-Jump Challenge",  8680002, 57, lambda state: state.has_any({'Hi Jump', 'Space Jump'}, player) and logic.AM2R_can_bomb(state)),  # jump. just jump. ibj and dbj can come later in advanced logic frogtroll
         LocationData("Main Caves", "Main Caves: Spiky Maze",  8680003, 210),
         LocationData("Main Caves", "Main Caves: Shinespark Before The Pit",  8680004, 54, lambda state: state.has("Speed Booster", player)),  # speed
@@ -42,9 +42,9 @@ def get_location_datas(world: Optional[MultiWorld], player: Optional[int]):
         LocationData("Golden Temple", "Golden Temple: EMP Room",  8680019, 110, lambda state: state.has("Super Missile", player) and logic.AM2R_has_ballspark(state) and logic.AM2R_can_bomb(state) and state.has("Screw Attack", player)),  # super + ballspark
 
         LocationData("Guardian", "Guardian: Up Above",  8680020, 111, lambda state: logic.AM2R_can_bomb(state) and ((logic.AM2R_can_schmove(state) and state.has("Bombs", player)) or logic.AM2R_can_fly(state))),  # bomb + schmove
-        LocationData("Guardian", "Guardian: Behind The Door",  8680021, 112, lambda state: state.has("Power Bomb", player) and ((logic.AM2R_can_schmove(state) and state.has("Bombs", player)) or logic.AM2R_can_fly(state))),  # PB + schmove
+        LocationData("Guardian", "Guardian: Behind The Door",  8680021, 112, lambda state: state.has("Power Bomb", player, 2) and ((logic.AM2R_can_spider(state)) or logic.AM2R_can_fly(state))),  # PB + schmove
 
-        LocationData("Hydro Station", "Hydro Station: Cliff",  8680022, 163, logic.AM2R_can_fly),
+        LocationData("Hydro Station", "Hydro Station: Cliff",  8680022, 163, lambda state: state.has("Speed Booster", player) or logic.AM2R_can_spider(state)),
         LocationData("Hydro Station", "Hydro Station: Side Morph Tunnel",  8680023, 152),
         LocationData("Hydro Station", "Hydro Station: Turbine Room",  8680024, 150, logic.AM2R_can_bomb),  # bomb
         LocationData("Hydro Station", "Hydro Station: Not so Secret Tunnel",  8680025, 151, logic.AM2R_can_schmove),  # schmove
@@ -63,7 +63,7 @@ def get_location_datas(world: Optional[MultiWorld], player: Optional[int]):
         LocationData("Inner Hydro Station", "Hydro Station: Behind Hi-Jump Boots Lower",  8680036, 157, logic.AM2R_can_bomb),
 
         LocationData("Hydro Nest", "Hydro Nest: Below the Walkway",  8680037, 158, logic.AM2R_can_bomb),  # Bomb
-        LocationData("Hydro Nest", "Hydro Nest: Speed Ceiling",  8680038, 161, lambda state: state.has("Speed Booster", player) and state.has("Speed Booster", player)),  # speed
+        LocationData("Hydro Nest", "Hydro Nest: Speed Ceiling",  8680038, 161, lambda state: state.has("Speed Booster", player)),  # speed
         LocationData("Hydro Nest", "Hydro Nest: Behind The Wall",  8680039, 160, lambda state: state.has("Power Bomb", player) and state.has("Screw Attack", player) and state.has("Speed Booster", player)),  # PB + screw/speed
 
         LocationData("Industrial Complex Nest", "Industrial Complex: Above Save",  8680040, 214),
@@ -73,7 +73,7 @@ def get_location_datas(world: Optional[MultiWorld], player: Optional[int]):
         LocationData("Pre Industrial Complex", "Industrial Complex: In the Sand",  8680043, 211),
         LocationData("Pre Industrial Complex", "Industrial Complex: Complex Side After Tunnel",  8680044, 202, lambda state: (state.has("Speed Booster", player) or logic.AM2R_can_spider(state)) and logic.AM2R_can_bomb(state)),
         LocationData("Pre Industrial Complex", "Industrial Complex: Complex Side Tunnel",  8680045, 200, lambda state: state.has("Speed Booster", player) or logic.AM2R_can_spider(state)),
-        LocationData("Pre Industrial Complex", "Industrial Complex: Behind the Green Door", 8680146, 212, lambda state: state.has("Speed Booster", player) or logic.AM2R_can_spider(state)),
+        LocationData("Pre Industrial Complex", "Industrial Complex: Behind the Green Door", 8680146, 212, lambda state: state.has("Speed Booster", player) and state.has("Power Bomb", player) and state.has("Super Missile", player) and logic.AM2R_can_spider(state)),
         LocationData("Pre Industrial Complex", "Industrial Complex: Save Room",  8680046, 203, lambda state: state.has("Speed Booster", player) or logic.AM2R_can_spider(state)),
         LocationData("Pre Industrial Complex", "Industrial Complex: Spazer Beam",  8680047, 13, lambda state: state.has("Speed Booster", player) or logic.AM2R_can_spider(state)),
         LocationData("Pre Industrial Complex", "Industrial Complex: Sisyphus Spark",  8680048, 204, lambda state: state.has("Speed Booster", player)),
