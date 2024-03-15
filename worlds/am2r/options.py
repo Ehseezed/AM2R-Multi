@@ -14,7 +14,7 @@ class MetroidsRequired(Range):
 class MetroidsAreChecks(Choice):
     """Have each of the 46 non lab Metroids be treated as locations"""
     display_name = "Metroids are Checks"
-    default = 0
+    default = 2
     option_disabled = 0
     option_exclude_A6 = 1
     option_include_A6 = 2

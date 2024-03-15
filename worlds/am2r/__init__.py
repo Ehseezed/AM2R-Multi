@@ -43,7 +43,7 @@ class AM2RWorld(World):
     location_name_to_id = {location.name: location.code for location in get_location_datas(None, None)}
 
     item_name_groups = items.item_name_groups
-    data_version = 0
+    data_version = 1
 
     def fill_slot_data(self) -> Dict[str, object]:
         return {name: getattr(self.multiworld, name)[self.player].value for name in self.option_definitions}
