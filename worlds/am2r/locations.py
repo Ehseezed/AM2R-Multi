@@ -152,14 +152,14 @@ def get_location_datas(world: Optional[MultiWorld], player: Optional[int]):
         LocationData("Industrial Complex Nest", "Industrial Nest: The Big Cheese", 8680114, 327, lambda state: state.has("Speed Booster", player) or state.has("Super Missile", player)),
         LocationData("Industrial Complex Nest", "Industrial Nest: Mohwir", 8680115, 328, lambda state: logic.AM2R_can_bomb(state) and (state.has("Speed Booster", player) or state.has("Super Missile", player))),
         LocationData("Industrial Complex Nest", "Industrial Nest: Chirn", 8680116, 329, lambda state: logic.AM2R_can_bomb(state) and (state.has("Speed Booster", player) or state.has("Super Missile", player))),
-        LocationData("Industrial Complex Nest", "Industrial Nest: BHHarbinger", 8680117, 330, lambda state: logic.AM2R_can_bomb(state) and (state.has("Speed Booster", player) or state.has("Super Missile", player))),
-        LocationData("Industrial Complex Nest", "Industrial Nest: The Abyssal Creature", 8680118, 331, lambda state: logic.AM2R_can_bomb(state) and state.has("Spider Ball", player) and (state.has("Speed Booster", player) or state.has("Super Missile", player))),
+        LocationData("Industrial Complex Nest", "Industrial Nest: BHHarbinger", 8680117, 330, lambda state: logic.AM2R_can_bomb(state) and logic.AM2R_can_schmove(state) and (state.has("Speed Booster", player) or state.has("Super Missile", player))),
+        LocationData("Industrial Complex Nest", "Industrial Nest: The Abyssal Creature", 8680118, 331, lambda state: logic.AM2R_can_bomb(state) and logic.AM2R_can_schmove(state) and (state.has("Speed Booster", player) or state.has("Super Missile", player))),
 
         LocationData("Pre Industrial Complex", "Industrial Complex: Sisyphus", 8680119, 323, logic.AM2R_can_spider),  # Mimo
         LocationData("Pre Industrial Complex", "Industrial Complex: And then there\'s this Asshole", 8680120, 332, logic.AM2R_can_spider),  # ANX
 
         LocationData("Industrial Complex", "Inside Industrial: Guardian of Doom Treadmill", 8680121, 324, lambda state: state.has("Speed Booster", player) and logic.AM2R_can_bomb(state)),
-        LocationData("Industrial Complex", "Inside Industrial: Rawsome1234 by the Lava Lake", 8680122, 325, lambda state: state.has("Speed Booster", player) and logic.AM2R_can_bomb(state)),
+        LocationData("Industrial Complex", "Inside Industrial: Rawsome1234 by the Lava Lake", 8680122, 325, lambda state: state.has("Speed Booster", player) and logic.AM2R_can_bomb(state) and (state.has("Gravity Suit", player) or state.has("Space Jump", player))),
 
         LocationData("GFS Thoth", "Dual Alphas: Marco", 8680123, 333),  # Epsilon
         LocationData("GFS Thoth", "Dual Alphas: Polo", 8680124, 334),  # Epsilon
