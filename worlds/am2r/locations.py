@@ -140,7 +140,7 @@ def get_location_datas(world: Optional[MultiWorld], player: Optional[int]):
 
         LocationData("Main Caves", "Main Caves: Freddy Fazbear", 8680105, 315),  # Epsilon
         LocationData("Hydro Station", "Hydro Station: Turbine Terror", 8680106, 316),  # Xander
-        LocationData("Hydro Station", "Hydro Station: The Lookout", 8680107, 318, logic.AM2R_can_schmove),  # Xander
+        LocationData("Hydro Station", "Hydro Station: The Lookout", 8680107, 318, lambda state: state.has("Speed Booster", player) or logic.AM2R_can_schmove),  # Xander
         LocationData("Hydro Station", "Hydro Station: Recent Guardian", 8680108, 317),  # ANX
 
         LocationData("Hydro Nest", "Hydro Nest: EnderMahan", 8680109, 319),
