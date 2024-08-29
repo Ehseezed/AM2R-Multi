@@ -38,7 +38,7 @@ def get_location_datas(world: Optional[MultiWorld], player: Optional[int]):
         LocationData("Golden Temple", "Golden Temple: 3-Orb Hallway Right",  108680016, 102),
         LocationData("Golden Temple", "Golden Temple: Spider Ball",  108680017, 2),
         LocationData("Golden Temple", "Golden Temple: Exterior Ceiling",  108680018, 109, lambda state: state.has("Speed Booster", player) or logic.AM2R_can_spider(state)),  # canspider
-        LocationData("Golden Temple", "Golden Temple: EMP Room",  108680019, 110, lambda state: state.has("Super Missile", player) and logic.AM2R_has_ballspark(state) and logic.AM2R_can_bomb(state) and state.has("Screw Attack", player)),  # super + ballspark
+        LocationData("Golden Temple", "Golden Temple: EMP Room",  108680019, 110, lambda state: state.has("Super Missile", player) and logic.AM2R_has_ballspark(state) and logic.AM2R_can_bomb(state) and state.has("Screw Attack", player) and state.can_reach("EMP", "Region", player)),  # super + ballspark
 
         LocationData("Guardian", "Guardian: Up Above",  108680020, 111, lambda state: logic.AM2R_can_bomb(state) and ((logic.AM2R_can_schmove(state) and state.has("Bombs", player)) or logic.AM2R_can_fly(state))),  # bomb + schmove
         LocationData("Guardian", "Guardian: Behind The Door",  108680021, 112, lambda state: state.has("Power Bomb", player, 2) and ((logic.AM2R_can_spider(state)) or logic.AM2R_can_fly(state))),  # PB + schmove
@@ -49,7 +49,7 @@ def get_location_datas(world: Optional[MultiWorld], player: Optional[int]):
         LocationData("Hydro Station", "Hydro Station: Not so Secret Tunnel",  108680025, 151, logic.AM2R_can_schmove),  # schmove
         LocationData("Hydro Station", "Hydro Station: Water Pressure Pre-Varia",  108680026, 159, logic.AM2R_can_bomb),  # bomb
         LocationData("Hydro Station", "Hydro Station: Varia Suit",  108680027, 5, logic.AM2R_can_bomb),  # bomb
-        LocationData("Hydro Station", "Hydro Station: EMP Room",  108680028, 162, lambda state: state.has("Super Missile", player) and state.has("Speed Booster", player)),  # super + speed
+        LocationData("Hydro Station", "Hydro Station: EMP Room",  108680028, 162, lambda state: state.has("Super Missile", player) and state.has("Speed Booster", player) and state.can_reach("EMP", "Region", player)),  # super + speed
 
         LocationData("Arachnus", "Arachnus: Boss", 108680029, 3),
 
