@@ -173,7 +173,7 @@ def get_location_datas(world: Optional[MultiWorld], player: Optional[int]):
         LocationData("The Tower", "The Tower: Anakin", 108680131, 341, lambda state: state.has("Space Jump", player)),  # Xander
         LocationData("The Tower", "The Tower: Xander", 108680132, 342, lambda state: state.has("Space Jump", player)),
 
-        LocationData("EMP", "EMP: Sir Zeta Commander of the Alpha Squadron", 108680133, 343, lambda state: logic.AM2R_can_bomb(state) and state.has("Speed Booster", player)),  # Lucina
+        LocationData("Pipe Hell BL", "EMP: Sir Zeta Commander of the Alpha Squadron", 108680133, 343, logic.AM2R_can_bomb),  # Lucina
 
         LocationData("Pipe Hell R", "Alpha Squadron: Timmy", 108680134, 346),  # Lucina
         LocationData("Pipe Hell R", "Alpha Squadron: Tommy", 108680135, 345),  # Lucina

@@ -160,8 +160,8 @@ def create_regions_and_locations(world: MultiWorld, player: int):
     connect(world, player, "Serris", "Ice Beam", lambda state: state.has("Gravity Suit", player)),
 
     # Pipe Hell Fuckery
-    connect(world, player, "EMP", "Pipe Hell BL"),
-    connect(world, player, "Pipe Hell BL", "EMP"),
+    connect(world, player, "EMP", "Pipe Hell BL", lambda state: state.has("Speed Booster", player)),
+    connect(world, player, "Pipe Hell BL", "EMP", lambda state: state.has("Speed Booster", player)),
 
     connect(world, player, "Pipe Hell BL", "Pipe Hell BR"),
     connect(world, player, "Pipe Hell BR", "Pipe Hell BL"),
