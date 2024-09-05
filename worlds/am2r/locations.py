@@ -160,15 +160,15 @@ def get_location_datas(world: Optional[MultiWorld], player: Optional[int]):
         LocationData("Industrial Complex", "Inside Industrial: Guardian of Doom Treadmill", 108680121, 324, lambda state: state.has("Speed Booster", player) and logic.AM2R_can_bomb(state)),
         LocationData("Industrial Complex", "Inside Industrial: Rawsome1234 by the Lava Lake", 108680122, 325, lambda state: state.has("Speed Booster", player) and logic.AM2R_can_bomb(state) and (state.has("Gravity Suit", player) or state.has("Space Jump", player))),
 
-        LocationData("GFS Thoth", "Dual Alphas: Marco", 108680123, 333),  # Epsilon
-        LocationData("GFS Thoth", "Dual Alphas: Polo", 108680124, 334),  # Epsilon
+        LocationData("GFS Thoth", "Research Camp Dual Alphas: Marco", 108680123, 333),  # Epsilon
+        LocationData("GFS Thoth", "Research Camp Dual Alphas: Polo", 108680124, 334),  # Epsilon
 
         LocationData("Mines", "Mines: Unga", 108680125, 335, lambda state: state.has("Super Missile", player) and logic.AM2R_can_bomb(state) and (state.has("Space Jump", player) or state.has("Spider Ball", player))),
         LocationData("Mines", "Mines: Gunga", 108680126, 336, lambda state: state.has("Super Missile", player) and logic.AM2R_can_bomb(state) and (state.has("Space Jump", player) or state.has("Spider Ball", player))),
 
         LocationData("The Tower", "The Tower: Patricia", 108680127, 337, logic.AM2R_can_fly),  # Mahan
         LocationData("The Tower", "The Tower: Variable \"GUH\"", 108680128, 338, logic.AM2R_can_spider),  # ANX
-        LocationData("The Tower", "Ruler of The Tower: Slagathor", 108680129, 340, lambda state: state.has("Power Bomb", player, 3) or state.has("Bombs", player)),  # Rawsome
+        LocationData("The Tower", "The Tower: Slagathor, the Ruler", 108680129, 340, lambda state: state.has("Power Bomb", player, 3) or state.has("Bombs", player)),  # Rawsome
         LocationData("The Tower", "The Tower: Mr.Sandman", 108680130, 339, lambda state: state.has("Space Jump", player) or state.has("Hi Jump", player) and state.has("Speed Booster", player)),  # Xander
         LocationData("The Tower", "The Tower: Anakin", 108680131, 341, lambda state: state.has("Space Jump", player)),  # Xander
         LocationData("The Tower", "The Tower: Xander", 108680132, 342, lambda state: state.has("Space Jump", player)),
@@ -181,8 +181,8 @@ def get_location_datas(world: Optional[MultiWorld], player: Optional[int]):
         LocationData("Pipe Hell R", "Alpha Squadron: Telly", 108680137, 347),  # Lucina
         LocationData("Pipe Hell R", "Alpha Squadron: Martin", 108680138, 344),
 
-        LocationData("Underwater Distro Connection", "Underwater: Gamma Bros Mario", 108680139, 349),  # Lucina
-        LocationData("Underwater Distro Connection", "Underwater: Gamma Bros Luigi", 108680140, 350),  # Lucina
+        LocationData("Underwater Distro Connection", "Distribution Center: Gamma Bros Mario", 108680139, 349),  # Lucina
+        LocationData("Underwater Distro Connection", "Distribution Center: Gamma Bros Luigi", 108680140, 350),  # Lucina
 
         LocationData("Deep Caves", "Deep Caves: Lil\' Bro", 108680141, 351),
         LocationData("Deep Caves", "Deep Caves: Big Sis", 108680142, 352),

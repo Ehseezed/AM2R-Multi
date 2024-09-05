@@ -6,6 +6,11 @@
 - [AM2R Launcher](https://github.com/AM2R-Community-Developers/AM2RLauncher/releases/latest)
 - Your self provided copy of AM2R 1.1 for the launcher
 
+## Optional Software
+- [Sublime Text](https://www.sublimetext.com/) or [Notepad++](https://notepad-plus-plus.org/downloads/) for easy editing of `.yaml` files
+- [Poptracker](https://github.com/black-sliver/PopTracker/releases) and the [AM2R Tracker](https://github.com/Ehseezed/AM2R-Tracker/releases) pack for a map tracker 
+- [Universal Tracker](https://github.com/FarisTheAncient/Archipelago/releases) for an updating list of available checks
+
 ## Installation Process
 
 ### Installing Multiworld Mod
@@ -13,7 +18,7 @@
 Download and set up the latest release of [AM2R Launcher](https://github.com/AM2R-Community-Developers/AM2RLauncher/releases) using your copy of AM2R 1.1 then in the launcher you can
 under the `Mod Settings` tab, hit the `ADD NEW MOD` button, and select Multiworld mod `.zip` file from either of the Multiworld Mod downloads.
 
-Finally from the `Play` tab select the `Multiworld` profile and hit `Install` and then play to load up the mod.
+Finally, from the `Play` tab select the `Multiworld` profile and hit `Install` and then play to load up the mod.
 
 
 ### Installing `am2r.apworld`
@@ -80,7 +85,7 @@ multiworld session at which point you can start a new save file or continue a sa
 
 ## Bug Reporting/Feature Requests
 
-If you are playing this mod and are encountering bugs **DO NOT** report them to the Archipelago server this is not official support from them, and they may or may not know what to do instead you can report them to the dedicated mod thread on the [AM2R Server](https://discord.gg/YTQnkAJ) or on the [Modding Server](https://discord.gg/Fdq3MSXEDb) and you can always open an issue on the github.
+If you are playing this mod and are encountering bugs **DO NOT** report them to the Archipelago server this is not official support from them, and they may or may not know what to do instead you can report them to the dedicated mod thread on the [AM2R Server](https://discord.gg/YTQnkAJ) or on the [Modding Server](https://discord.gg/Fdq3MSXEDb) and you can always open an issue on the GitHub.
 
 ### Help I don't have enough energy to do this check with 100% trap fill on fusion mode
 
