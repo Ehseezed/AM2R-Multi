@@ -4,7 +4,7 @@ from typing import Dict
 from .items import item_table
 from .locations import get_location_datas, EventId
 from .regions import create_regions_and_locations
-from BaseClasses import Tutorial, Item
+from BaseClasses import Tutorial, Item, ItemClassification
 from .options import AM2R_options, LocationSettings
 from worlds.AutoWorld import World, WebWorld
 from worlds.LauncherComponents import Component, components, Type, launch_subprocess
@@ -52,9 +52,13 @@ class AM2RWorld(World):
 
     def create_regions(self) -> None:
         create_regions_and_locations(self.multiworld, self.player)
+        self.multiworld.get_location("The Last Metroid is in Captivity", self.player).place_locked_item(self.create_event("The Galaxy is at Peace"))
 
     def create_item(self, name: str) -> Item:
         return items.create_item(self.player, name)
+
+    def create_event(self, event: str):
+        return Item(event, ItemClassification.progression, None, self.player)
 
     def create_items(self) -> None:
         if self.options.MetroidsRequired > self.options.MetroidsInPool:
@@ -113,7 +117,6 @@ class AM2RWorld(World):
             self.multiworld.exclude_locations[self.player].value.add("Deep Caves: Ramulken Lava Pool")
             self.multiworld.exclude_locations[self.player].value.add("Deep Caves: After Omega")
 
-        self.multiworld.get_location("The Last Metroid is in Captivity", self.player).place_locked_item(self.create_item("The Galaxy is at Peace"))
         items.create_all_items(self.multiworld, self.player)
 
     def set_rules(self) -> None:

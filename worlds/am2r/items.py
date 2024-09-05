@@ -134,7 +134,6 @@ item_table: Dict[str, ItemData] = {
     "OHKO Trap":                ItemData(108678026, "Trap", ItemClassification.trap, 25),
     "Touhou Trap":              ItemData(108678027, "Trap", ItemClassification.trap, 26),
     "Metroid":                  ItemData(108678025, "MacGuffin", ItemClassification.progression_skip_balancing, 19),
-    "The Galaxy is at Peace":   ItemData(None, "", ItemClassification.progression)
 
 }
 filler_weights: Dict[str, int] = {

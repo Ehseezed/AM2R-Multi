@@ -181,7 +181,7 @@ def create_regions_and_locations(world: MultiWorld, player: int):
     connect(world, player, "Pipe Hell L", "Fast Travel", lambda state: state.has("Screw Attack", player)),
     connect(world, player, "Fast Travel", "Pipe Hell L", lambda state: state.has("Screw Attack", player)),
 
-    connect(world, player, "Fast Travel", "Gravity", lambda state: state.has("Gravity Suit", player) and state.has("Space Jump")),  # one way transition due to crumbles
+    connect(world, player, "Fast Travel", "Gravity", lambda state: state.has("Gravity Suit", player) and state.has("Space Jump", player)),  # one way transition due to crumbles
 
     connect(world, player, "Fast Travel", "Underwater Distribution Center"),
     connect(world, player, "Underwater Distribution Center", "Fast Travel", lambda state: state.can_reach("Fast Travel", "Region", player)),
