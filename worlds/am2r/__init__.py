@@ -1,7 +1,7 @@
 import types
 import logging
 from typing import Dict
-from .items import item_table
+from .items import item_table, item_name_groups, item_name_to_id, create_item, create_all_items
 from .locations import get_location_datas, EventId
 from .regions import create_regions_and_locations
 from BaseClasses import Tutorial, Item, ItemClassification
@@ -38,13 +38,13 @@ class AM2RWorld(World):
     items from there as well.
     """
     game = "AM2R"
-    option_definitions = options.AM2R_options
+    option_definitions = AM2R_options
     web = AM2RWeb()
 
-    item_name_to_id = items.item_name_to_id
+    item_name_to_id = item_name_to_id
     location_name_to_id = {location.name: location.code for location in get_location_datas(None, None)}
 
-    item_name_groups = items.item_name_groups
+    item_name_groups = item_name_groups
     data_version = 1
 
     def fill_slot_data(self) -> Dict[str, object]:
@@ -55,7 +55,7 @@ class AM2RWorld(World):
         self.multiworld.get_location("The Last Metroid is in Captivity", self.player).place_locked_item(self.create_event("The Galaxy is at Peace"))
 
     def create_item(self, name: str) -> Item:
-        return items.create_item(self.player, name)
+        return create_item(self.player, name)
 
     def create_event(self, event: str):
         return Item(event, ItemClassification.progression, None, self.player)
@@ -117,7 +117,7 @@ class AM2RWorld(World):
             self.multiworld.exclude_locations[self.player].value.add("Deep Caves: Ramulken Lava Pool")
             self.multiworld.exclude_locations[self.player].value.add("Deep Caves: After Omega")
 
-        items.create_all_items(self.multiworld, self.player)
+        create_all_items(self.multiworld, self.player)
 
     def set_rules(self) -> None:
         self.multiworld.completion_condition[self.player] = lambda state: state.has("The Galaxy is at Peace", self.player)
