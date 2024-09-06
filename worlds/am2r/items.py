@@ -109,7 +109,7 @@ item_table: Dict[str, ItemData] = {
     "Missile":                  ItemData(108678000, "Ammo", ItemClassification.filler, 15),
     "Super Missile":            ItemData(108678001, "Ammo", ItemClassification.progression, 16, 1),
     "Power Bomb":               ItemData(108678002, "Ammo", ItemClassification.progression, 18, 2),
-    "Energy Tank":              ItemData(108678003, "Ammo", ItemClassification.filler, 17, 1),
+    "Energy Tank":              ItemData(108678003, "Ammo", ItemClassification.useful, 17, 1),
     #  "Arm Cannon":            ItemData108678004, ("Equipment", ItemClassification.progression, ID, 1),
     #  "Morph Ball":            ItemData108678005, ("Equipment", ItemClassification.progression, ID, 1),
     #  "Power Grip":            ItemData108678006, ("Equipment", ItemClassification.progression, ID, 1),
