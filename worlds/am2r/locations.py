@@ -175,11 +175,11 @@ def get_location_datas(world: Optional[MultiWorld], player: Optional[int]):
 
         LocationData("Pipe Hell BL", "EMP: Sir Zeta Commander of the Alpha Squadron", 108680133, 343, logic.AM2R_can_bomb),  # Lucina
 
-        LocationData("Pipe Hell R", "Alpha Squadron: Timmy", 108680134, 346),  # Lucina
-        LocationData("Pipe Hell R", "Alpha Squadron: Tommy", 108680135, 345),  # Lucina
-        LocationData("Pipe Hell R", "Alpha Squadron: Terry", 108680136, 348),  # Lucina
-        LocationData("Pipe Hell R", "Alpha Squadron: Telly", 108680137, 347),  # Lucina
-        LocationData("Pipe Hell R", "Alpha Squadron: Martin", 108680138, 344),
+        LocationData("Pipe Hell R", "Distribution Center Alpha Squadron: Timmy", 108680134, 346),  # Lucina
+        LocationData("Pipe Hell R", "Distribution Center Alpha Squadron: Tommy", 108680135, 345),  # Lucina
+        LocationData("Pipe Hell R", "Distribution Center Alpha Squadron: Terry", 108680136, 348),  # Lucina
+        LocationData("Pipe Hell R", "Distribution Center Alpha Squadron: Telly", 108680137, 347),  # Lucina
+        LocationData("Pipe Hell R", "Distribution Center Alpha Squadron: Martin", 108680138, 344),
 
         LocationData("Underwater Distro Connection", "Distribution Center: Gamma Bros Mario", 108680139, 349),  # Lucina
         LocationData("Underwater Distro Connection", "Distribution Center: Gamma Bros Luigi", 108680140, 350),  # Lucina
