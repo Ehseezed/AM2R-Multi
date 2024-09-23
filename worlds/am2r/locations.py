@@ -76,7 +76,7 @@ def get_location_datas(world: Optional[MultiWorld], player: Optional[int]):
         LocationData("Pre Industrial Complex", "Industrial Complex: Save Room",  108680046, 203, lambda state: state.has("Speed Booster", player) or logic.AM2R_can_spider(state)),
         LocationData("Pre Industrial Complex", "Industrial Complex: Spazer Beam",  108680047, 13, lambda state: state.has("Speed Booster", player) or logic.AM2R_can_spider(state)),
         LocationData("Pre Industrial Complex", "Industrial Complex: Sisyphus Spark",  108680048, 204, lambda state: state.has("Speed Booster", player)),
-        LocationData("Pre Industrial Complex", "Industrial Complex: Speed Booster",  108680049, 7, lambda state: state.has("Speed Booster", player) or logic.AM2R_can_bomb(state)),  # bomb
+        LocationData("Pre Industrial Complex", "Industrial Complex: Speed Booster",  108680049, 7, lambda state: (state.has("Speed Booster", player) or logic.AM2R_can_bomb(state)) and logic.AM2R_can_spider(state)),  # bomb
 
         LocationData("Torizo Ascended", "Torizo Ascended: Boss", 108680050, 6, logic.AM2R_can_schmove),
 
