@@ -8,7 +8,7 @@ class AM2RLocationData(NamedTuple):
     location_group: str = "region"
 
 
-location_based_id = 8678000
+location_based_id = 108678000
 
 location_table: Dict[str, AM2RLocationData] = {
     "Main Caves: Spider Ball Challenge Upper":                  AM2RLocationData("Main Caves", 53),
@@ -67,15 +67,16 @@ location_table: Dict[str, AM2RLocationData] = {
     "Industrial Complex: Complex Side Tunnel":                  AM2RLocationData("Pre Industrial Complex", 200),
     "Industrial Complex: Behind the Green Door":                AM2RLocationData("Pre Industrial Complex", 212),
     "Industrial Complex: Save Room":                            AM2RLocationData("Pre Industrial Complex", 203),
-    "Industrial Complex: Spazer Beam":                          AM2RLocationData("Pre Industrial Complex", 13),
-    "Industrial Complex: Sisyphus Spark":                       AM2RLocationData("Pre Industrial Complex", 204),
-    "Industrial Complex: Speed Booster":                        AM2RLocationData("Pre Industrial Complex", 7),
+
+    "Industrial Complex: Spazer Beam":                          AM2RLocationData("Complex Sand", 13),
+    "Industrial Complex: Sisyphus Spark":                       AM2RLocationData("Complex Sand", 204),
+    "Industrial Complex: Speed Booster":                        AM2RLocationData("Complex Sand", 7),
 
     "Torizo Ascended: Boss":                                    AM2RLocationData("Torizo Ascended", 6),
 
     "Industrial Complex: Conveyor Belt Room":                   AM2RLocationData("Industrial Complex", 205),
     "Industrial Complex: Doom Treadmill":                       AM2RLocationData("Industrial Complex", 201),
-    "Industrial Complex: Complex Hub Shinespark"                AM2RLocationData("Industrial Complex", 208),
+    "Industrial Complex: Complex Hub Shinespark":               AM2RLocationData("Industrial Complex", 208),
     "Industrial Complex: Complex Hub in the Floor":             AM2RLocationData("Industrial Complex", 207),
     "Industrial Complex: Skippy Reward":                        AM2RLocationData("Industrial Complex", 206),
 

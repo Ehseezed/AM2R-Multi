@@ -1,4 +1,3 @@
-from random import Random
 from typing import Dict, TYPE_CHECKING
 
 from worlds.generic.Rules import set_rule, forbid_item
@@ -42,8 +41,7 @@ def has_ammo(state: CollectionState, player: int, options: AM2ROptions, health: 
     s_packs = state.count("Super Missile", player)
     m_count = 0
     s_count = 0
-    damage = 0
-    health = health + 0
+    health = ceil(health * (options.expected_ammo_multiplier / 100))
 
     if options.missile_launcher == 0:  # default starting 30 missiles
         m_count += 30
@@ -57,7 +55,7 @@ def has_ammo(state: CollectionState, player: int, options: AM2ROptions, health: 
     if options.super_launcher:
         if state.has("Super Missile Launcher", player):  # Super Launcher counts as 1 pack
             s_packs += 1
-        else:  # if no launcher, then you cant fire missiles and they should not be counted towards damage total
+        else:  # if no launcher, then you cant fire supers and they should not be counted towards damage total
             s_packs = 0
 
     if options.ammo_logic == 0:
@@ -79,6 +77,9 @@ def has_powerbombs(state: CollectionState, player: int, options: AM2ROptions, pa
     if options.ammo_logic == 1:
         packs *= 2
 
+    if not can_morph(state, player, options):
+        return False
+
     if options.missile_launcher:
         packs -= 1  # launcher counts as 1 pack
         return state.has("Power Bomb Launcher", player) and state.has("Power Bomb", player, packs)
@@ -86,18 +87,16 @@ def has_powerbombs(state: CollectionState, player: int, options: AM2ROptions, pa
         return state.has("Power Bomb", player, packs)
 
 
-def can_break_blocks(state: CollectionState, player: int, options: AM2ROptions) -> bool:
-    if options.remove_beam:
-        return (state.has("Screw Attack", player) or
-                can_bomb(state, player, options, 2) or has_missiles(state, player, options, 2))
-    else:
-        return True
-
-
 def has_energy(state: CollectionState, player: int, options: AM2ROptions, required: int) -> bool:
     num = required
     if options.logic_dificulty == 0:  # literally baby mode
         num *= 2
+
+    if state.has("Varia Suit", player) and state.has("Gravity Suit", player):
+        num = ceil(num / 4)
+    elif state.has("Varia Suit", player) or state.has("Gravity Suit", player):
+        num = ceil(num / 2)
+
     return state.has("Energy Tank", player, num)
 
 
@@ -161,11 +160,205 @@ def can_schmove(state: CollectionState, player: int, options: AM2ROptions) -> bo
 def can_spider(state: CollectionState, player: int, options: AM2ROptions) -> bool:
     return has_spider(state, player, options) or can_fly(state, player, options)
 
+def has_metroids(state: CollectionState, player: int, options: AM2ROptions) -> bool:
+    required = options.metroids_required
+    return state.has("Metroid", player, required)
 
-def set_region_rules(world: AM2RWorld) -> None:
-    multiworld = world.multiworld
+def can_ouch_jump(state: CollectionState, player: int, options: AM2ROptions, energy: int) -> bool:
+    if options.logic_dificulty != 0 and has_energy(state, player, options, energy):
+        return True
+    else:
+        return False
+
+def can_wall_jump(state: CollectionState, player: int, options: AM2ROptions) -> bool:
+    if options.logic_dificulty != 0:
+        return can_schmove(state, player, options)
+    else:
+        return True
+
+def can_ball(state: CollectionState, player: int, options: AM2ROptions) -> bool:
+    return can_bomb(state, player, options, 1) or has_missiles(state, player, options, 2) or has_supers(state, player, options, 3)
+
+
+def set_region_rules(world: "AM2RWorld") -> None:
     player = world.player
     options = world.options
+
+
+    world.get_entrance("Main Caves -> First Alpha").access_rule = \
+        lambda state: True
+
+    world.get_entrance("Main Caves -> Guardian").access_rule = \
+        lambda state: True
+
+    world.get_entrance("Main Caves -> Hydro Station").access_rule = \
+        lambda state: can_morph(state, player, options)
+
+    world.get_entrance("Main Caves -> Mines").access_rule = \
+        lambda state: has_supers(state, player, options, 1) and can_morph(state, player, options)
+
+    world.get_entrance("Main Caves -> Industrial Complex Nest").access_rule = \
+        lambda state: can_morph(state, player, options)
+
+    world.get_entrance("Main Caves -> GFS Thoth").access_rule = \
+        lambda state: True
+
+    world.get_entrance("Main Caves -> Lower Main Caves").access_rule = \
+        lambda state: can_morph_uppies(state, player, options)
+
+    world.get_entrance("Lower Main Caves -> The Tower").access_rule = \
+        lambda state: True
+
+    world.get_entrance("Lower Main Caves -> Underwater Distribution Center").access_rule = \
+        lambda state: ((can_morph(state, player, options) and has_powerbombs(state, player, options, 1)
+                       or has_supers(state, player, options, 1)) and
+                       (state.has("Ice Beam", player) and has_ammo(state, player, options, 1)))
+
+    world.get_entrance("Lower Main Caves -> Deep Caves").access_rule = \
+        lambda state: (can_morph(state, player, options) and has_powerbombs(state, player, options, 1) or
+                        has_supers(state, player, options, 1))
+
+    world.get_entrance("GFS Thoth -> Genesis").access_rule = \
+        lambda state: can_morph(state, player, options) and has_powerbombs(state, player, options, 2)
+
+    world.get_entrance("Guardian -> After Guardian").access_rule = \
+        lambda state: True
+
+    world.get_entrance("After Guardian -> Golden Temple").access_rule = \
+        lambda state: True
+
+    world.get_entrance("After Guardian -> Golden Temple Nest").access_rule = \
+        lambda state: True
+
+    world.get_entrance("Hydro Station -> Hydro Nest").access_rule = \
+        lambda state: (can_morph(state, player, options) and
+        (state.has("Hi Jump", player) and has_grip(state, player, options)) or
+        can_fly(state, player, options) or (can_ouch_jump(state, player, options, 0)) and has_grip(state, player, options))
+
+    world.get_entrance("Hydro Station -> Arachnus").access_rule = \
+        lambda state: (can_morph(state, player, options) and has_missiles(state, player, options, 1) and
+                       can_bomb(state, player, options, 1) and can_morph_uppies(state, player, options))
+
+    world.get_entrance("Hydro Station -> Inner Hydro Station").access_rule = \
+        lambda state: can_bomb(state, player, options, 1) or state.has("Screw Attack", player)
+
+    world.get_entrance("Hydro Station -> The Tower").access_rule = \
+        lambda state: can_morph(state, player, options) and state.has("Screw Attack", player)
+
+    world.get_entrance("Hydro Station -> The Lab").access_rule = \
+        lambda state: can_morph(state, player, options) and state.has("Screw Attack", player) and has_metroids(state, player, options)
+
+    world.get_entrance("Industrial Complex Nest -> Pre Industrial Complex").access_rule = \
+        lambda state: ((can_bomb(state, player, options, 1) and can_morph_uppies(state, player, options)) or
+                        (state.has("Hi Jump", player) and state.has("Speed Booster", player)))
+
+    world.get_entrance("Pre Industrial Complex -> Complex Sand").access_rule = \
+        lambda state: (can_morph(state, player, options) and ((can_spider(state, player, options) or can_fly(state, player, options) or
+                       (can_ouch_jump(state, player, options, 1) and state.has("Hi Jump", player))) and
+                       has_ammo(state, player, options, 1) or can_morph(state, player, options) and state.has("Bombs", player)))
+
+    world.get_entrance("Pre Industrial Complex -> Torizo Ascended").access_rule = \
+        lambda state: (can_spider(state, player, options) or can_hi(state, player, options))
+
+    world.get_entrance("Complex Sand -> Industrial Complex").access_rule = \
+        lambda state: can_schmove(state, player, options)
+
+    world.get_entrance("The Tower -> Tester Lower").access_rule = \
+        lambda state: can_bomb(state, player, options, 2) and can_wall_jump(state, player, options)
+
+    world.get_entrance("The Tower -> Tester Upper").access_rule = \
+        lambda state: can_bomb(state, player, options, 2) and can_wall_jump(state, player, options)
+
+    world.get_entrance("The Tower -> Geothermal").access_rule = \
+        lambda state: True
+
+    world.get_entrance("Tester Lower -> Tester").access_rule = \
+        lambda state: True
+
+    world.get_entrance("Tester Upper -> Tester").access_rule = \
+        lambda state: True
+
+    world.get_entrance("Underwater Distribution Center -> Underwater Distro Connection").access_rule = \
+        lambda state: (state.has("Gravity Suit", player) and state.has("Speed Booster", player) or
+                       state.has("Ice Beam", player) and has_ammo(state, player, options, 1) and
+                       (state.has("Gravity Suit", player) and state.has("Speed Booster", player) or
+                        has_supers(state, player, options, 1)))
+
+    world.get_entrance("Underwater Distribution Center -> EMP").access_rule = \
+        lambda state: True
+
+    world.get_entrance("Underwater Distribution Center -> Serris").access_rule = \
+        lambda state: True
+
+    world.get_entrance("EMP -> Post EMP").access_rule = \
+        lambda state: (can_bomb(state, player, options, 2) and state.has("Speed Booster", player) and
+                       state.has("EMP", player) and can_ball(state, player, options))
+
+    world.get_entrance("Post EMP -> Pipe Hell BL").access_rule = \
+        lambda state: can_bomb(state, player, options, 2)
+
+    world.get_entrance("Pipe Hell BL -> Pipe Hell L").access_rule = \
+        lambda state: state.has("Screw Attack", player)
+
+    world.get_entrance("Pipe Hell BR -> Pipe Hell R").access_rule = \
+        lambda state: state.has("Screw Attack", player)
+
+    world.get_entrance("Pipe Hell BR -> Pipe Hell L").access_rule = \
+        lambda state: can_morph(state, player, options)
+
+    world.get_entrance("Pipe Hell L -> Pipe Hell R").access_rule = \
+        lambda state: can_bomb(state, player, options, 1)
+
+    world.get_entrance("Pipe Hell R -> Screw Attack").access_rule = \
+        lambda state: (state.has("Screw Attack", player) and
+                       can_schmove(state, player, options) and can_ball(state, player, options))
+
+    world.get_entrance("Pipe Hell R -> Underwater Distro Connection").access_rule = \
+        lambda state: can_morph_uppies(state, player, options)
+
+    world.get_entrance("Serris -> Ice Beam").access_rule = \
+        lambda state: (state.has("Ice Beam", player) and has_ammo(state, player, options, 1) and
+                       can_morph(state, player, options))
+
+    world.get_entrance("Fast Travel -> Golden Temple").access_rule = \
+        lambda state: can_morph(state, player, options) and state.has("Screw Attack", player)
+
+    world.get_entrance("Fast Travel -> Complex Sand").access_rule = \
+        lambda state: can_morph(state, player, options) and state.has("Screw Attack", player)
+
+    world.get_entrance("Fast Travel -> The Tower").access_rule = \
+        lambda state: can_morph(state, player, options) and state.has("Screw Attack", player)
+
+    world.get_entrance("Fast Travel -> Gravity").access_rule = \
+        lambda state: can_morph(state, player, options) and (state.has("Gravity Suit", player) and state.has("Space Jump", player))
+
+    world.get_entrance("Pipe Hell L -> Fast Travel").access_rule = \
+        lambda state: state.has("Screw Attack", player)
+
+    world.get_entrance("Fast Travel -> Underwater Distribution Center").access_rule = \
+        lambda state: can_ball(state, player, options)
+
+    world.get_entrance("Gravity -> Pipe Hell Outside").access_rule = \
+        lambda state: can_morph(state, player, options) and state.has("Gravity Suit", player) and state.has("Space Jump", player)
+
+    world.get_entrance("Pipe Hell Outside -> Pipe Hell R").access_rule = \
+        lambda state: can_ball(state, player, options)
+
+    world.get_entrance("Deep Caves -> Omega Nest").access_rule = \
+        lambda state: ((has_powerbombs(state, player, options, 1) or state.has("Screw Attack", player)) and
+                       (state.has("Ice Beam", player) and has_ammo(state, player, options, 1)) and
+                       (can_morph_uppies(state, player, options) and can_bomb(state, player, options, 1)))
+
+    world.get_entrance("Omega Nest -> The Lab").access_rule = \
+        lambda state: ((can_wall_jump(state, player, options) or state.has("Speed Booster", player)) and
+                       can_bomb(state, player, options, 1) and can_fly(state, player, options) and
+                       has_metroids(state, player, options))
+
+    world.get_entrance("The Lab -> Research Station").access_rule = \
+        lambda state: (state.has("Ice Beam", player) and has_ammo(state, player, options, 10) and
+                       state.has("Space Jump", player) and can_bomb(state, player, options, 1))
+
+# todo: Have someone other than me verify this @Everyone
 
 
 

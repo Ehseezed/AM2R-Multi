@@ -6,15 +6,45 @@ from Options import DefaultOnToggle, Toggle, StartInventoryPool, Choice, Range, 
 class LogicDificulty(Choice):
     """Easy: Assumes developer intended solutions and expects little to none trick knowledge and less than optimal use of ammos
     Required Tricks: Simple single wall Wall-Jumps, Knowledge of the Low% Super Missile block in Distribution Center
-    Required Damage: Hydro Station Nest Vines with 2 E-Tanks
+    Expected Damage: Hydro Station Nest Vines with 2 E-Tanks
     Normal: Assumes knowledge over the game and expects some trick knowledge
     Required Tricks: Simple Morph Glides, tricky single wall Wall-Jumps, Knowledge of Shinesparks to reach areas
-    Required Damage: Hydro Nest Vines (1E), Doom Treadmill Spikes, Spikes to Patricia(A4 Right Side Zeta)"""
+    Expected Damage: Hydro Nest Vines (1E), Doom Treadmill Spikes, Spikes to Patricia (A4 Right Side Zeta)
+    Hard: Assumes great technical skill over the game and expects a lot of trick knowledge
+    Required Tricks:
+    Expected Damage: Any stated above, Various Spike wall-jumps, spike paths to the A4 gammas, A5 Spiky Trial
+    """
     display_name = "Logic Dificulty"
     default = 0
     option_easy = 0
     option_normal = 1
     option_hard = 2  # todo add hard mode definitions
+    # option_insane = 3 # Maybe someday (the druid difficulty)
+
+
+class LocationSettings(Choice):
+    """Chose what items you want in the pool
+    not including checks via the no_A6 will force them to be excluded
+    not adding Metroids will force them to be vanilla and will not randomize them into item locations
+    adding metroids but excluding A6 will leave the A6 and omega nest metroids vanilla but will leave the full amount in the pool"""
+    display_name = "Locations to Check"
+    default = 2
+    option_items_no_A6 = 0
+    option_items_and_A6 = 1
+    option_add_metroids_no_A6 = 2
+    option_add_metroids_and_A6 = 3
+
+
+class AreaBehavior(Choice):
+    """Chose how you want the areas to behave in the randomizer
+    Lava: Lava starts at the position allowing access to the Golden Temple with the lava going down upon receiving a percentage of the goal metroids
+    Standard: The only existing area blocker is the one preventing lab access
+    Area Randomizer: Enables the area randomizer behavior"""
+    display_name = "Area Behavior"
+    default = 1
+    option_lava = 0
+    option_standard = 1
+    option_area_rando = 2
 
 
 class AmmoLogic(Choice):
@@ -27,6 +57,16 @@ class AmmoLogic(Choice):
     option_fusion = 1
     ailias_hard = 1
     alias_easy = 0
+
+
+class ExpectedAmmoMultiplier(Range):
+    """This value is used as a percentage based multiplier for the expected ammo count rounded up
+    100% is exactly enough ammo to kill an enemy without missing a shot
+    300% is 3 times the amount of ammo needed to kill an enemy"""
+    display_name = "Expected Ammo Multiplier"
+    range_start = 100
+    range_end = 250
+    default = 150
 
 
 class MetroidsInPool(Range):
@@ -43,19 +83,6 @@ class MetroidsRequired(Range):
     range_start = 0
     range_end = 100
     default = 20
-
-
-class LocationSettings(Choice):
-    """Chose what items you want in the pool
-    not including checks via the no_A6 will force them to be excluded
-    not adding Metroids will force them to be vanilla and will not randomize them into item locations
-    adding metroids but excluding A6 will leave the A6 and omega nest metroids vanilla but will leave the full amount in the pool"""
-    display_name = "Locations to Check"
-    default = 2
-    option_items_no_A6 = 0
-    option_items_and_A6 = 1
-    option_add_metroids_no_A6 = 2
-    option_add_metroids_and_A6 = 3
 
 
 class StartLocation(Toggle):
@@ -124,12 +151,12 @@ class RemoveFloodTrap(Toggle):
 
 
 class RemoveTossTrap(Toggle):
-    """There is a pipebomb in your mailbox"""
+    """Is there a pipebomb in your mailbox?"""
     display_name = "Remove Toss Trap"
 
 
 class RemoveShortBeam(Toggle):
-    """Remove muscle memory trap"""
+    """Remove short beam trap"""
     display_name = "Remove Short Beam"
 
 
@@ -152,10 +179,12 @@ class RemoveOHKOTrap(Toggle):
 class AM2ROptions(PerGameCommonOptions):
     logic_dificulty: LogicDificulty
     ammo_logic: AmmoLogic
-    metroids_required: MetroidsRequired
+    expected_ammo_multiplier: ExpectedAmmoMultiplier
     location_settings: LocationSettings
-    start_location: StartLocation
-    area_rando: AreaRando
+    area_behavior: AreaBehavior
+    metroids_required: MetroidsRequired
+    # start_location: StartLocation
+    # area_rando: AreaRando
     remove_power_grip: RemovePowerGrip
     remove_morph_ball: RemoveMorphBall
     remove_beam: RemoveBeam
