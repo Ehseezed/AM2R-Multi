@@ -20,7 +20,7 @@ class AM2RLogic:
         return state.has_any({'Bombs', 'Space Jump'}, self.player)
 
     def AM2R_can_spider(self, state: CollectionState) -> bool:
-        return state.has('Spiderball', self.player) \
+        return state.has('Spider Ball', self.player) \
             or self.AM2R_can_fly(state)
 
     def AM2R_can_schmove(self, state: CollectionState) -> bool:
