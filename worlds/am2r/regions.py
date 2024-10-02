@@ -123,7 +123,7 @@ def create_regions_and_locations(world: MultiWorld, player: int):
     connect(world, player, "Hydro Station", "Inner Hydro Station", lambda state: state.has("Screw Attack", player) or logic.AM2R_can_bomb(state))
     connect(world, player, "Inner Hydro Station", "Hydro Station", lambda state: state.has("Screw Attack", player) or logic.AM2R_can_bomb(state))
 
-    connect(world, player, "Industrial Complex Nest", "Pre Industrial Complex", lambda state: (state.has("Speed Booster", player) and state.has("Hi Jump")) or logic.AM2R_can_bomb(state)),
+    connect(world, player, "Industrial Complex Nest", "Pre Industrial Complex", lambda state: (state.has("Speed Booster", player) and state.has("Hi Jump", player)) or logic.AM2R_can_bomb(state)),
     connect(world, player, "Pre Industrial Complex", "Industrial Complex Nest", lambda state: state.has("Speed Booster", player) or logic.AM2R_can_bomb(state)),
 
     connect(world, player, "Pre Industrial Complex", "Industrial Complex"),

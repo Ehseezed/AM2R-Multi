@@ -1,7 +1,5 @@
-import itertools
-from typing import Union
 from BaseClasses import MultiWorld, CollectionState
-from .options import MetroidsRequired, LocationSettings, get_option_value
+from .options import get_option_value
 
 
 class AM2RLogic:
