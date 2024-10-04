@@ -1,6 +1,8 @@
 .idea
 .vscode
 
+*.exe
+*.apworld
 *_Spoiler.txt
 *.bmbp
 *.apbp
