@@ -5,7 +5,7 @@ from Options import DefaultOnToggle, Toggle, StartInventoryPool, Choice, Range, 
 
 class LogicDificulty(Choice):
     """Easy: Assumes developer intended solutions and expects little to none trick knowledge and less than optimal use of ammos
-    Required Tricks: Simple single wall Wall-Jumps, Knowledge of the Low% Super Missile block in Distribution Center
+    Required Tricks: Simple single wall Wall-Jumps, Knowledge of the Low% Super Missile block in Distribution Center and mid-air morphs
     Expected Damage: Hydro Station Nest Vines with 2 E-Tanks
     Normal: Assumes knowledge over the game and expects some trick knowledge
     Required Tricks: Simple Morph Glides, tricky single wall Wall-Jumps, Knowledge of Shinesparks to reach areas

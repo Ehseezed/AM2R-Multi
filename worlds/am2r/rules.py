@@ -12,7 +12,8 @@ if TYPE_CHECKING:
 # use only to make breakables, red door and missile block checks easier
 def has_missiles(state: CollectionState, player: int, options: AM2ROptions, packs: int) -> bool:
     if options.ammo_logic == 1:
-        packs = ceil(packs * 2.5)  # on hard/fusion mode, missile packs give 2 missiles instead of 5 this value is rounded up
+        packs = ceil(
+            packs * 2.5)  # on hard/fusion mode, missile packs give 2 missiles instead of 5 this value is rounded up
 
     if options.missile_launcher == 0:
         return True
@@ -33,6 +34,10 @@ def has_supers(state: CollectionState, player: int, options: AM2ROptions, packs:
         return state.has("Super Missile Launcher", player) and state.has("Super Missile", player, packs)
     else:
         return state.has("Super Missile", player, packs)
+
+
+def red_door(state: CollectionState, player: int, options: AM2ROptions) -> bool:
+    return has_missiles(state, player, options, 1) or has_supers(state, player, options, 1)
 
 
 def has_ammo(state: CollectionState, player: int, options: AM2ROptions, health: int) -> bool:
@@ -160,9 +165,11 @@ def can_schmove(state: CollectionState, player: int, options: AM2ROptions) -> bo
 def can_spider(state: CollectionState, player: int, options: AM2ROptions) -> bool:
     return has_spider(state, player, options) or can_fly(state, player, options)
 
+
 def has_metroids(state: CollectionState, player: int, options: AM2ROptions) -> bool:
     required = options.metroids_required
     return state.has("Metroid", player, required)
+
 
 def can_ouch_jump(state: CollectionState, player: int, options: AM2ROptions, energy: int) -> bool:
     if options.logic_dificulty != 0 and has_energy(state, player, options, energy):
@@ -170,20 +177,22 @@ def can_ouch_jump(state: CollectionState, player: int, options: AM2ROptions, ene
     else:
         return False
 
+
 def can_wall_jump(state: CollectionState, player: int, options: AM2ROptions) -> bool:
     if options.logic_dificulty != 0:
         return can_schmove(state, player, options)
     else:
         return True
 
+
 def can_ball(state: CollectionState, player: int, options: AM2ROptions) -> bool:
-    return can_bomb(state, player, options, 1) or has_missiles(state, player, options, 2) or has_supers(state, player, options, 3)
+    return can_bomb(state, player, options, 1) or has_missiles(state, player, options, 2) or has_supers(state, player,
+                                                                                                        options, 3)
 
 
 def set_region_rules(world: "AM2RWorld") -> None:
     player = world.player
     options = world.options
-
 
     world.get_entrance("Main Caves -> First Alpha").access_rule = \
         lambda state: True
@@ -211,12 +220,12 @@ def set_region_rules(world: "AM2RWorld") -> None:
 
     world.get_entrance("Lower Main Caves -> Underwater Distribution Center").access_rule = \
         lambda state: ((can_morph(state, player, options) and has_powerbombs(state, player, options, 1)
-                       or has_supers(state, player, options, 1)) and
+                        or has_supers(state, player, options, 1)) and
                        (state.has("Ice Beam", player) and has_ammo(state, player, options, 1)))
 
     world.get_entrance("Lower Main Caves -> Deep Caves").access_rule = \
         lambda state: (can_morph(state, player, options) and has_powerbombs(state, player, options, 1) or
-                        has_supers(state, player, options, 1))
+                       has_supers(state, player, options, 1))
 
     world.get_entrance("GFS Thoth -> Genesis").access_rule = \
         lambda state: can_morph(state, player, options) and has_powerbombs(state, player, options, 2)
@@ -232,11 +241,13 @@ def set_region_rules(world: "AM2RWorld") -> None:
 
     world.get_entrance("Hydro Station -> Hydro Nest").access_rule = \
         lambda state: (can_morph(state, player, options) and
-        (state.has("Hi Jump", player) and has_grip(state, player, options)) or
-        can_fly(state, player, options) or (can_ouch_jump(state, player, options, 0)) and has_grip(state, player, options))
+                       (state.has("Hi Jump", player) and has_grip(state, player, options)) or
+                       can_fly(state, player, options) or (can_ouch_jump(state, player, options, 0)) and has_grip(state,
+                                                                                                                  player,
+                                                                                                                  options))
 
     world.get_entrance("Hydro Station -> Arachnus").access_rule = \
-        lambda state: (can_morph(state, player, options) and has_missiles(state, player, options, 1) and
+        lambda state: (can_morph(state, player, options) and red_door(state, player, options) and
                        can_bomb(state, player, options, 1) and can_morph_uppies(state, player, options))
 
     world.get_entrance("Hydro Station -> Inner Hydro Station").access_rule = \
@@ -246,22 +257,29 @@ def set_region_rules(world: "AM2RWorld") -> None:
         lambda state: can_morph(state, player, options) and state.has("Screw Attack", player)
 
     world.get_entrance("Hydro Station -> The Lab").access_rule = \
-        lambda state: can_morph(state, player, options) and state.has("Screw Attack", player) and has_metroids(state, player, options)
+        lambda state: can_morph(state, player, options) and state.has("Screw Attack", player) and has_metroids(state,
+                                                                                                               player,
+                                                                                                               options)
 
     world.get_entrance("Industrial Complex Nest -> Pre Industrial Complex").access_rule = \
         lambda state: ((can_bomb(state, player, options, 1) and can_morph_uppies(state, player, options)) or
-                        (state.has("Hi Jump", player) and state.has("Speed Booster", player)))
+                       (state.has("Hi Jump", player) and state.has("Speed Booster", player)))
 
     world.get_entrance("Pre Industrial Complex -> Complex Sand").access_rule = \
-        lambda state: (can_morph(state, player, options) and ((can_spider(state, player, options) or can_fly(state, player, options) or
-                       (can_ouch_jump(state, player, options, 1) and state.has("Hi Jump", player))) and
-                       has_ammo(state, player, options, 1) or can_morph(state, player, options) and state.has("Bombs", player)))
+        lambda state: (can_morph(state, player, options) and (
+                    (can_spider(state, player, options) or can_fly(state, player, options) or
+                     (can_ouch_jump(state, player, options, 1) and state.has("Hi Jump", player))) and
+                    has_ammo(state, player, options, 1) or can_morph(state, player, options) and state.has("Bombs",
+                                                                                                           player)))
 
     world.get_entrance("Pre Industrial Complex -> Torizo Ascended").access_rule = \
-        lambda state: (can_spider(state, player, options) or can_hi(state, player, options))
+        lambda state: (can_schmove(state, player, options) and red_door(state, player, options))
 
-    world.get_entrance("Complex Sand -> Industrial Complex").access_rule = \
+    world.get_entrance("Complex Sand -> Speed Industrial Complex").access_rule = \
         lambda state: can_schmove(state, player, options)
+
+    world.get_entrance("Speed Industrial Complex -> Industrial Complex").access_rule = \
+        lambda state: state.has("Speed Booster", player)
 
     world.get_entrance("The Tower -> Tester Lower").access_rule = \
         lambda state: can_bomb(state, player, options, 2) and can_wall_jump(state, player, options)
@@ -330,7 +348,8 @@ def set_region_rules(world: "AM2RWorld") -> None:
         lambda state: can_morph(state, player, options) and state.has("Screw Attack", player)
 
     world.get_entrance("Fast Travel -> Gravity").access_rule = \
-        lambda state: can_morph(state, player, options) and (state.has("Gravity Suit", player) and state.has("Space Jump", player))
+        lambda state: can_morph(state, player, options) and (
+                    state.has("Gravity Suit", player) and state.has("Space Jump", player))
 
     world.get_entrance("Pipe Hell L -> Fast Travel").access_rule = \
         lambda state: state.has("Screw Attack", player)
@@ -339,7 +358,8 @@ def set_region_rules(world: "AM2RWorld") -> None:
         lambda state: can_ball(state, player, options)
 
     world.get_entrance("Gravity -> Pipe Hell Outside").access_rule = \
-        lambda state: can_morph(state, player, options) and state.has("Gravity Suit", player) and state.has("Space Jump", player)
+        lambda state: can_morph(state, player, options) and state.has("Gravity Suit", player) and state.has(
+            "Space Jump", player)
 
     world.get_entrance("Pipe Hell Outside -> Pipe Hell R").access_rule = \
         lambda state: can_ball(state, player, options)
@@ -359,62 +379,60 @@ def set_region_rules(world: "AM2RWorld") -> None:
                        state.has("Space Jump", player) and can_bomb(state, player, options, 1))
 
 # todo: Have someone other than me verify this @Everyone
-
-
-
-
 def set_location_rules_easy(world: AM2RWorld) -> None:  # currently every location is in a reachable state
     multiworld = world.multiworld
     player = world.player
     options = world.options
 
     set_rule(multiworld.get_location("Main Caves: Spider Ball Challenge Upper", player),
-             lambda state: True)
+             lambda state: (can_bomb(state, player, options, 2) and
+                           (can_fly(state, player, options) or
+                            has_spider(state, player, options) and state.has("Bombs", player))))
 
     set_rule(multiworld.get_location("Main Caves: Spider Ball Challenge Lower", player),
-             lambda state: True)
+             lambda state: can_bomb(state, player, options, 2))
 
     set_rule(multiworld.get_location("Main Caves: Hi-Jump Challenge", player),
-             lambda state: True)
+             lambda state: can_bomb(state, player, options, 1) and can_hi(state, player, options))
 
     set_rule(multiworld.get_location("Main Caves: Spiky Maze", player),
-             lambda state: True)
+             lambda state: can_morph(state, player, options))
 
     set_rule(multiworld.get_location("Main Caves: Shinespark Before The Pit", player),
-             lambda state: True)
+             lambda state: state.has("Speed Booster", player))
 
     set_rule(multiworld.get_location("Main Caves: Shinespark After The Pit", player),
-             lambda state: True)
+             lambda state: state.has("Speed Booster", player))
 
     set_rule(multiworld.get_location("Golden Temple: Bombs", player),
-             lambda state: True)
+             lambda state: red_door(state, player, options))
 
     set_rule(multiworld.get_location("Golden Temple: Below Bombs", player),
-             lambda state: True)
+             lambda state: can_bomb(state, player, options, 1) and red_door(state, player, options))
 
     set_rule(multiworld.get_location("Golden Temple: Hidden Energy Tank", player),
-             lambda state: True)
+             lambda state: can_bomb(state, player, options, 1))
 
     set_rule(multiworld.get_location("Golden Temple: Charge Beam", player),
-             lambda state: True)
+             lambda state: red_door(state, player, options))
 
     set_rule(multiworld.get_location("Golden Temple: Armory Left", player),
              lambda state: True)
 
     set_rule(multiworld.get_location("Golden Temple: Armory Upper", player),
-             lambda state: True)
+             lambda state: can_morph_uppies(state, player, options))
 
     set_rule(multiworld.get_location("Golden Temple: Armory Lower", player),
              lambda state: True)
 
     set_rule(multiworld.get_location("Golden Temple: Armory False Wall", player),
-             lambda state: True)
+             lambda state: can_bomb(state, player, options, 2) and can_morph_uppies(state, player, options))
 
     set_rule(multiworld.get_location("Golden Temple: 3-Orb Hallway Left", player),
              lambda state: True)
 
     set_rule(multiworld.get_location("Golden Temple: 3-Orb Hallway Middle", player),
-             lambda state: True)
+             lambda state: can_morph_uppies(state, player, options))
 
     set_rule(multiworld.get_location("Golden Temple: 3-Orb Hallway Right", player),
              lambda state: True)
@@ -777,175 +795,189 @@ def set_location_rules_normal(world: AM2RWorld) -> None:
     options = world.options
 
     set_rule(multiworld.get_location("Main Caves: Spider Ball Challenge Upper", player),
-             lambda state: True)
+             lambda state: can_fly(state, player, options) and can_bomb(state, player, options, 1))
 
     set_rule(multiworld.get_location("Main Caves: Spider Ball Challenge Lower", player),
-             lambda state: True)
+             lambda state: can_bomb(state, player, options, 2))
 
     set_rule(multiworld.get_location("Main Caves: Hi-Jump Challenge", player),
-             lambda state: True)
+             lambda state: can_bomb(state, player, options, 1) and can_hi(state, player, options))
 
     set_rule(multiworld.get_location("Main Caves: Spiky Maze", player),
-             lambda state: True)
+             lambda state: can_morph(state, player, options))
 
     set_rule(multiworld.get_location("Main Caves: Shinespark Before The Pit", player),
-             lambda state: True)
+             lambda state: state.has("Speed Booster", player))
 
     set_rule(multiworld.get_location("Main Caves: Shinespark After The Pit", player),
-             lambda state: True)
+             lambda state: state.has("Speed Booster", player))
 
     set_rule(multiworld.get_location("Golden Temple: Bombs", player),
-             lambda state: True)
+             lambda state: red_door(state, player, options))
 
     set_rule(multiworld.get_location("Golden Temple: Below Bombs", player),
-             lambda state: True)
+             lambda state: red_door(state, player, options) and can_bomb(state, player, options, 1))
 
     set_rule(multiworld.get_location("Golden Temple: Hidden Energy Tank", player),
-             lambda state: True)
+             lambda state: can_bomb(state, player, options, 1))
 
     set_rule(multiworld.get_location("Golden Temple: Charge Beam", player),
-             lambda state: True)
+             lambda state: red_door(state, player, options) and can_morph(state, player, options))
 
     set_rule(multiworld.get_location("Golden Temple: Armory Left", player),
              lambda state: True)
 
     set_rule(multiworld.get_location("Golden Temple: Armory Upper", player),
-             lambda state: True)
+             lambda state: can_morph_uppies(state, player, options))
 
     set_rule(multiworld.get_location("Golden Temple: Armory Lower", player),
              lambda state: True)
 
     set_rule(multiworld.get_location("Golden Temple: Armory False Wall", player),
-             lambda state: True)
+             lambda state: can_bomb(state, player, options, 2))
 
     set_rule(multiworld.get_location("Golden Temple: 3-Orb Hallway Left", player),
-             lambda state: True)
+             lambda state: can_morph(state, player, options))
 
     set_rule(multiworld.get_location("Golden Temple: 3-Orb Hallway Middle", player),
-             lambda state: True)
+             lambda state: can_morph_uppies(state, player, options))
 
     set_rule(multiworld.get_location("Golden Temple: 3-Orb Hallway Right", player),
-             lambda state: True)
+             lambda state: can_morph(state, player, options))
 
     set_rule(multiworld.get_location("Golden Temple: Spider Ball", player),
-             lambda state: True)
+             lambda state: can_morph(state, player, options))
 
     set_rule(multiworld.get_location("Golden Temple: Exterior Ceiling", player),
-             lambda state: True)
+             lambda state: can_spider(state, player, options) or can_fly(state, player, options))
 
     set_rule(multiworld.get_location("Golden Temple: EMP Room", player),
-             lambda state: True)
+             lambda state: (state.has("EMP", player) and can_ball(state, player, options) and
+             can_ballspark(state, player, options) and state.has("Screw Attack", player) and
+             has_supers(state, player, options, 1) and can_bomb(state, player, options, 2)))
 
     set_rule(multiworld.get_location("Guardian: Up Above", player),
-             lambda state: True)
+             lambda state: (can_spider(state, player, options) or can_fly(state, player, options)) and can_bomb(state, player, options, 1))
 
     set_rule(multiworld.get_location("Guardian: Behind The Door", player),
-             lambda state: True)
+             lambda state: (can_spider(state, player, options) or can_fly(state, player, options)) and has_powerbombs(state, player, options, 1))
 
     set_rule(multiworld.get_location("Hydro Station: Cliff", player),
-             lambda state: True)
+             lambda state: can_morph(state, player, options))
 
     set_rule(multiworld.get_location("Hydro Station: Side Morph Tunnel", player),
-             lambda state: True)
+             lambda state: can_morph(state, player, options))
 
     set_rule(multiworld.get_location("Hydro Station: Turbine Room", player),
-             lambda state: True)
+             lambda state: can_bomb(state, player, options, 1))
 
     set_rule(multiworld.get_location("Hydro Station: Not so Secret Tunnel", player),
-             lambda state: True)
+             lambda state: (can_spider(state, player, options) or can_fly(state, player, options)) and
+                           can_morph(state, player, options))
 
     set_rule(multiworld.get_location("Hydro Station: Water Pressure Pre-Varia", player),
-             lambda state: True)
+             lambda state: can_bomb(state, player, options, 2))
 
     set_rule(multiworld.get_location("Hydro Station: Varia Suit", player),
-             lambda state: True)
+             lambda state: can_bomb(state, player, options, 2) and red_door(state, player, options))
 
     set_rule(multiworld.get_location("Hydro Station: EMP Room", player),
-             lambda state: True)
+             lambda state: state.has("EMP", player) and can_ball(state, player, options) and
+                           state.has("Speed Booster", player) and has_supers(state, player, options, 1))
 
     set_rule(multiworld.get_location("Arachnus: Boss", player),
-             lambda state: True)
+             lambda state: can_bomb(state, player, options, 2))
 
     set_rule(multiworld.get_location("Hydro Station: Wave Beam", player),
-             lambda state: True)
+             lambda state: can_bomb(state, player, options, 2))
 
     set_rule(multiworld.get_location("Hydro Station: Below Tower Pipe Upper", player),
-             lambda state: True)
+             lambda state: can_bomb(state, player, options, 1) and can_schmove(state, player, options))
 
     set_rule(multiworld.get_location("Hydro Station: Below Tower Pipe Lower", player),
-             lambda state: True)
+             lambda state: can_bomb(state, player, options, 2))
 
     set_rule(multiworld.get_location("Hydro Station: Dead End", player),
-             lambda state: True)
+             lambda state: can_bomb(state, player, options, 1))
 
     set_rule(multiworld.get_location("Hydro Station: Hi-Jump Boots", player),
              lambda state: True)
 
     set_rule(multiworld.get_location("Hydro Station: Behind Hi-Jump Boots Upper", player),
-             lambda state: True)
+             lambda state: can_bomb(state, player, options, 2) and can_schmove(state, player, options))
 
     set_rule(multiworld.get_location("Hydro Station: Behind Hi-Jump Boots Lower", player),
-             lambda state: True)
+             lambda state: can_bomb(state, player, options, 1))
 
     set_rule(multiworld.get_location("Hydro Nest: Below the Walkway", player),
-             lambda state: True)
+             lambda state: can_bomb(state, player, options, 2) and
+                           (has_energy(state, player, options, 1) or state.has("Gravity Suit", player)))
 
     set_rule(multiworld.get_location("Hydro Nest: Speed Ceiling", player),
-             lambda state: True)
+             lambda state: state.has("Speed Booster", player) and
+                           (has_energy(state, player, options, 1) or state.has("Gravity Suit", player)))
 
     set_rule(multiworld.get_location("Hydro Nest: Behind The Wall", player),
-             lambda state: True)
+             lambda state: state.has("Speed Booster", player) and has_powerbombs(state, player, options, 1) and
+                           (has_energy(state, player, options, 1) or state.has("Gravity Suit", player)))
 
     set_rule(multiworld.get_location("Industrial Complex: Above Save", player),
              lambda state: True)
 
     set_rule(multiworld.get_location("Industrial Complex: EMP Room", player),
-             lambda state: True)
+             lambda state: state.has("EMP", player) and
+                           has_powerbombs(state, player, options, 1) and has_supers(state, player, options, 1))
 
     set_rule(multiworld.get_location("Industrial Complex Nest: Nest Shinespark", player),
-             lambda state: True)
+             lambda state: state.has("Speed Booster", player) and can_bomb(state, player, options, 1) and
+                           can_schmove(state, player, options))
 
     set_rule(multiworld.get_location("Industrial Complex: In the Sand", player),
              lambda state: True)
 
     set_rule(multiworld.get_location("Industrial Complex: Complex Side After Tunnel", player),
-             lambda state: True)
+             lambda state: can_schmove(state, player, options) and can_morph(state, player, options) and
+                           red_door(state, player, options))
 
     set_rule(multiworld.get_location("Industrial Complex: Complex Side Tunnel", player),
-             lambda state: True)
+             lambda state: can_schmove(state, player, options) and can_bomb(state, player, options, 1) and
+                           red_door(state, player, options))
 
     set_rule(multiworld.get_location("Industrial Complex: Behind the Green Door", player),
-             lambda state: True)
+             lambda state: has_supers(state, player, options, 1) and
+                           has_powerbombs(state, player, options, 1) and state.has("Speed Booster", player))
 
     set_rule(multiworld.get_location("Industrial Complex: Save Room", player),
-             lambda state: True)
+             lambda state: can_schmove(state, player, options))
 
     set_rule(multiworld.get_location("Industrial Complex: Spazer Beam", player),
-             lambda state: True)
+             lambda state: red_door(state, player, options))
 
     set_rule(multiworld.get_location("Industrial Complex: Sisyphus Spark", player),
-             lambda state: True)
+             lambda state: state.has("Speed Booster", player))
 
     set_rule(multiworld.get_location("Industrial Complex: Speed Booster", player),
-             lambda state: True)
+             lambda state: red_door(state, player, options) and (state.has("Speed Booster", player) or can_bomb(state, player, options, 2)))
 
     set_rule(multiworld.get_location("Torizo Ascended: Boss", player),
-             lambda state: True)
+             lambda state: can_schmove(state, player, options))
 
     set_rule(multiworld.get_location("Industrial Complex: Conveyor Belt Room", player),
-             lambda state: True)
+             lambda state: can_morph(state, player, options))
 
     set_rule(multiworld.get_location("Industrial Complex: Doom Treadmill", player),
-             lambda state: True)
+             lambda state: can_bomb(state, player, options, 1))
 
     set_rule(multiworld.get_location("Industrial Complex: Complex Hub Shinespark", player),
-             lambda state: True)
+             lambda state: can_bomb(state, player, options, 1) and can_morph_uppies(state, player, options))
 
     set_rule(multiworld.get_location("Industrial Complex: Complex Hub in the Floor", player),
-             lambda state: True)
+             lambda state: can_bomb(state, player, options, 1) and can_morph_uppies(state, player, options) and
+             has_supers(state, player, options, 1))
 
     set_rule(multiworld.get_location("Industrial Complex: Skippy Reward", player),
-             lambda state: True)
+             lambda state: can_bomb(state, player, options, 1) and can_morph_uppies(state, player, options) and
+             has_supers(state, player, options, 4))
 
     set_rule(multiworld.get_location("GFS Thoth: Research Camp", player),
              lambda state: True)
