@@ -19,7 +19,8 @@ am2r_regions: Dict[str, Set[str]] = {
     "Inner Hydro Station": set(),
     "Industrial Complex Nest": {"Pre Industrial Complex"},
     "Pre Industrial Complex": {"Complex Sand", "Torizo Ascended"},
-    "Complex Sand": {"Industrial Complex"}, # added sand region because of the new launchers option since beam only wont work to leave
+    "Complex Sand": {"Speed Industrial Complex"}, # added sand region because of the new launchers option since beam only wont work to leave
+    "Speed Industrial Complex": {"Industrial Complex"},
     "Torizo Ascended": set(),
     "Industrial Complex": set(),
     "Mines": set(),
@@ -38,7 +39,8 @@ am2r_regions: Dict[str, Set[str]] = {
     "Serris": {"Ice Beam"},
     "Ice Beam": set(),
     "Underwater Distro Connection": {},
-    "Fast Travel": {"Golden Temple", "Complex Sand", "The Tower", "Gravity", "Underwater Distribution Center"},
+    "Fast Travel": {"Golden Temple", "Complex Sand", "The Tower", "Pre Gravity", "Underwater Distribution Center"},
+    "Pre Gravity": {"Gravity"},
     "Gravity": {"Pipe Hell Outside"},
     "Pipe Hell Outside": {"Pipe Hell R"},
     "Screw Attack": set(),

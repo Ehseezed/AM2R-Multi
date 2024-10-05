@@ -223,9 +223,12 @@ def set_region_rules(world: "AM2RWorld") -> None:
                         or has_supers(state, player, options, 1)) and
                        (state.has("Ice Beam", player) and has_ammo(state, player, options, 1)))
 
-    world.get_entrance("Lower Main Caves -> Deep Caves").access_rule = \
+    world.get_entrance("Lower Main Caves -> Pre Deep Caves").access_rule = \
         lambda state: (can_morph(state, player, options) and has_powerbombs(state, player, options, 1) or
                        has_supers(state, player, options, 1))
+
+    world.get_entrance("Pre Deep Caves -> Deep Caves").access_rule = \
+    lambda state: state.has("Ice Beam", player) and red_door(state, player, options) and ((can_bomb(state, player, options, 1) and state.has("Screw Attack", player)) or has_powerbombs(state, player, options, 2))
 
     world.get_entrance("GFS Thoth -> Genesis").access_rule = \
         lambda state: can_morph(state, player, options) and has_powerbombs(state, player, options, 2)
@@ -347,9 +350,11 @@ def set_region_rules(world: "AM2RWorld") -> None:
     world.get_entrance("Fast Travel -> The Tower").access_rule = \
         lambda state: can_morph(state, player, options) and state.has("Screw Attack", player)
 
-    world.get_entrance("Fast Travel -> Gravity").access_rule = \
-        lambda state: can_morph(state, player, options) and (
-                    state.has("Gravity Suit", player) and state.has("Space Jump", player))
+    world.get_entrance("Fast Travel -> Pre Gravity").access_rule = \
+        lambda state: can_morph(state, player, options)
+
+    world.get_entrance("Fast Travel -> Pre Gravity").access_rule = \
+        lambda state: state.has("Gravity Suit", player) and state.has("Space Jump", player)
 
     world.get_entrance("Pipe Hell L -> Fast Travel").access_rule = \
         lambda state: state.has("Screw Attack", player)
@@ -977,100 +982,102 @@ def set_location_rules_normal(world: AM2RWorld) -> None:
 
     set_rule(multiworld.get_location("Industrial Complex: Skippy Reward", player),
              lambda state: can_bomb(state, player, options, 1) and can_morph_uppies(state, player, options) and
-             has_supers(state, player, options, 4))
+             has_supers(state, player, options, 2))
 
     set_rule(multiworld.get_location("GFS Thoth: Research Camp", player),
              lambda state: True)
 
     set_rule(multiworld.get_location("GFS Thoth: Hornoad Room", player),
-             lambda state: True)
+             lambda state: has_powerbombs(state, player, options, 1))
 
     set_rule(multiworld.get_location("GFS Thoth: Outside the Front of the Ship", player),
-             lambda state: True)
+             lambda state: has_powerbombs(state, player, options, 1))
 
     set_rule(multiworld.get_location("Genesis: Boss", player),
              lambda state: True)
 
     set_rule(multiworld.get_location("The Tower: Beside Hydro Pipe", player),
-             lambda state: True)
+             lambda state: state.has("Screw Attack", player))
 
     set_rule(multiworld.get_location("The Tower: Right Side of Tower", player),
              lambda state: True)
 
     set_rule(multiworld.get_location("The Tower: In the Ceiling", player),
-             lambda state: True)
+             lambda state: can_spider(state, player, options) and can_bomb(state, player, options, 1))
 
     set_rule(multiworld.get_location("The Tower: Dark Maze", player),
-             lambda state: True)
+             lambda state: has_spider(state, player, options) and can_bomb(state, player, options, 2))
 
     set_rule(multiworld.get_location("The Tower: After Dark Maze", player),
-             lambda state: True)
+             lambda state: has_spider(state, player, options) and can_bomb(state, player, options, 2))
 
     set_rule(multiworld.get_location("The Tower: Plasma Beam", player),
-             lambda state: True)
+             lambda state: state.has("Tower Activation", player))
 
     set_rule(multiworld.get_location("The Tower: After Tester", player),
-             lambda state: True)
+             lambda state: state.has("Tower Activation", player) and has_powerbombs(state, player, options, 2))
 
     set_rule(multiworld.get_location("The Tower: Outside Reactor", player),
-             lambda state: True)
+             lambda state: has_powerbombs(state, player, options, 1))
 
     set_rule(multiworld.get_location("The Tower: Geothermal Reactor", player),
-             lambda state: True)
+             lambda state: state.has("Geothermal", player))
 
     set_rule(multiworld.get_location("The Tower: Post Reactor Chozo", player),
-             lambda state: True)
+             lambda state: state.has("Geothermal", player))
 
     set_rule(multiworld.get_location("The Tower: Post Reactor Shinespark", player),
-             lambda state: True)
+             lambda state: state.has("Geothermal", player) and
+                           has_supers(state, player, options, 1) and state.has("Speed Booster", player))
 
     set_rule(multiworld.get_location("Distribution Center: Main Room Shinespark", player),
-             lambda state: True)
+             lambda state: state.has("Gravity Suit", player) and state.has("Speed Booster", player))
 
     set_rule(multiworld.get_location("Distribution Center: Underwater Speed Hallway", player),
-             lambda state: True)
+             lambda state: state.has("Gravity Suit", player) and state.has("Speed Booster", player))
 
     set_rule(multiworld.get_location("Distribution Center: After EMP Activation", player),
-             lambda state: True)
+             lambda state: state.has("Screw Attack", player) and state.has("Speed Booster", player))
 
     set_rule(multiworld.get_location("Distribution Center: Spider Ball Crumble Spiky \"Maze\"", player),
-             lambda state: True)
+             lambda state: state.has("Gravity Suit", player) and has_spider(state, player, options))
 
     set_rule(multiworld.get_location("Distribution Center: Before Spiky Trial", player),
              lambda state: True)
 
     set_rule(multiworld.get_location("Distribution Center: Spiky Trial Shinespark", player),
-             lambda state: True)
+             lambda state: state.has("Gravity Suit", player) and state.has("Speed Booster", player))
 
     set_rule(multiworld.get_location("Distribution Center: After Spiky Trial", player),
-             lambda state: True)
+             lambda state: state.has("Gravity Suit", player) and state.has("Space Jump", player))
 
     set_rule(multiworld.get_location("Distribution Center: Screw Attack", player),
              lambda state: True)
 
     set_rule(multiworld.get_location("Distribution Center: Exterior Post-Gravity", player),
-             lambda state: True)
+             lambda state: has_powerbombs(state, player, options, 1) and (can_wall_jump(state, player, options)
+                           or (can_schmove(state, player, options) and state.has("Gravity Suit", player))))
 
     set_rule(multiworld.get_location("Distribution Center: Spectator Jail", player),
-             lambda state: True)
+             lambda state: has_powerbombs(state, player, options, 1) and state.has("Speed Booster", player))
 
     set_rule(multiworld.get_location("Distribution Center: Before Gravity", player),
-             lambda state: True)
+             lambda state: can_bomb(state, player, options, 1))
 
     set_rule(multiworld.get_location("Distribution Center: Gravity Suit", player),
-             lambda state: True)
+             lambda state: red_door(state, player, options) and can_bomb(state, player, options, 1))
 
     set_rule(multiworld.get_location("Serris: Ice Beam", player),
-             lambda state: True)
+             lambda state: state.has("Ice Beam", player) and red_door(state, player, options))
 
     set_rule(multiworld.get_location("Deep Caves: Drivel Ballspark", player),
-             lambda state: True)
+             lambda state: can_ballspark(state, player, options) and state.has("Gravity Suit", player))
 
     set_rule(multiworld.get_location("Deep Caves: Ramulken Lava Pool", player),
-             lambda state: True)
+             lambda state: can_bomb(state, player, options, 1))
 
     set_rule(multiworld.get_location("Deep Caves: After Omega", player),
-             lambda state: True)
+             lambda state: can_schmove(state, player, options))
 
     set_rule(multiworld.get_location("The Forgotten Alpha", player),
              lambda state: True)
