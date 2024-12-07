@@ -412,7 +412,7 @@ class FF4FEWorld(World):
                     "location_data": location_data.to_json(),
                     "item_data": item_data.to_json(),
                     "item_name": item_data.name,
-                    "player_name": self.remove_unencodable_characters(self.multiworld.player_name[location.item.player])
+                    "player_name": self.multiworld.player_name[location.item.player]
                 }
             else:
                 placement_dict[location_data.fe_id] = {
