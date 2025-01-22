@@ -34,20 +34,21 @@ item_table: Dict[str, SnailiadItemData] = {
     "Full Metal Snail": SnailiadItemData(ItemClassification.progression, 1, 15, 9, "Shell"),
     "Progressive Shell": SnailiadItemData(ItemClassification.progression, 0, 16, 300000, "Shell"),
 
-    "Gravity Shock": SnailiadItemData(ItemClassification.progression, 1, 17, 10, "Ability"),
+    "Gravity Shock": SnailiadItemData(ItemClassification.progression, 1, 17, 10, "Ability"),  #  todo dont generate on split shuffle
     "High Jump": SnailiadItemData(ItemClassification.progression, 1, 18, 4, "Ability"),
     "Wall Grab": SnailiadItemData(ItemClassification.progression, 0, 19, 4, "Ability"),
     "Shell Shield": SnailiadItemData(ItemClassification.progression, 1, 20, 5, "Ability"),
     "Shellmet": SnailiadItemData(ItemClassification.progression, 0, 21, 5, "Ability"),
 
-    "Helix Fragment": SnailiadItemData(ItemClassification.filler, 30, 22, 24, ""),
+    "Helix Fragment": SnailiadItemData(ItemClassification.filler, 30, 22, 14, ""),
     "Nothing": SnailiadItemData(ItemClassification.filler, 0, 23, 400000, ""),  # created in __init__
     "Heart Container": SnailiadItemData(ItemClassification.filler, 0, 24, 13, ""),  # created in __init__
 
-    "Gravity Lock": SnailiadItemData(ItemClassification.trap, 0, 25, 500000, "Trap"),
-    "Weapon Lock": SnailiadItemData(ItemClassification.trap, 0, 26, 600000, "Trap"),
-    "Lullaby Trap": SnailiadItemData(ItemClassification.trap, 0, 27, 700000, "Trap"),
-    "Spider Trap": SnailiadItemData(ItemClassification.trap, 0, 28, 800000,  "Trap"),
+    "Gravity Lock": SnailiadItemData(ItemClassification.trap, 0, 25, 100, "Trap"),
+    "Weapon Lock": SnailiadItemData(ItemClassification.trap, 0, 26, 101, "Trap"),
+    "Lullaby Trap": SnailiadItemData(ItemClassification.trap, 0, 27, 102, "Trap"),
+    "Spider Trap": SnailiadItemData(ItemClassification.trap, 0, 28, 103,  "Trap"),
+    "Warp Trap": SnailiadItemData(ItemClassification.trap, 0, 29, 104, "Trap"),
 }
 
 slot_data_item_names = []
